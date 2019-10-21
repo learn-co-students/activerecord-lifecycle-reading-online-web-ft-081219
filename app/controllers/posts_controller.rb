@@ -21,9 +21,14 @@ class PostsController < ApplicationController
 	end
 
 	def update
-	  @post = Post.find(params[:id])
-	  @post.update(params.require(:post).permit(:title, :description, :post_status, :author_id))
-	  redirect_to post_path(@post)
+		@post = Post.find(params[:id])
+		
+		@post.update(params.require(:post).permit(:title, :description, :post_status, :author_id))
+		if @post.valid? 
+			redirect_to post_path(@post)
+		else
+			render "posts/edit"
+		end
 	end
 
 	def edit
